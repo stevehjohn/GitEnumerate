@@ -10,6 +10,7 @@ namespace GitEnumerate
     {
         private static ConsoleColor _userForegroundColor;
         private static bool _verbose;
+        private static int _count;
 
         public static void Main(string[] args)
         {
@@ -56,6 +57,12 @@ namespace GitEnumerate
             }
 
             EnumerateFolder(Environment.CurrentDirectory);
+            
+            if (_count == 0)
+            {
+                ForegroundColor = ConsoleColor.Red;
+                WriteLine("    No repositories found.\n");
+            }
 
             ForegroundColor = _userForegroundColor;
         }
@@ -85,8 +92,6 @@ namespace GitEnumerate
                 // Probably access denied
                 return;
             }
-
-            var count = 0;
 
             var length = folders.Max(f => f.Length);
 
@@ -127,18 +132,12 @@ namespace GitEnumerate
                             status.Missing.ToList().ForEach(m => WriteLine($"      - {m.FilePath}"));
                         }
 
-                        count++;
+                        _count++;
                     }
                 }
                 catch
                 {
                     // Probably not a repo
-                }
-
-                if (count == 0)
-                {
-                    ForegroundColor = ConsoleColor.Red;
-                    WriteLine("    No repositories found.\n");
                 }
             }
 
