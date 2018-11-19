@@ -164,7 +164,8 @@ namespace GitEnumerate
             WriteLine("\n  Where:");
             WriteLine("    -v: Verbose, lists added/changed/deleted files within the repo.");
             //WriteLine("    -r: Recurse, recurse more than one level from the current folder.");
-            //WriteLine("    levels: how many levels to recurse if -r specified. Default: 2 if -r specified, 1 if not.\n");
+            //WriteLine("    levels: how many levels to recurse if -r specified. Default: 2 if -r specified, 1 if not.");
+            WriteLine();
 
             ForegroundColor = _userForegroundColor;
             Environment.Exit(0);
