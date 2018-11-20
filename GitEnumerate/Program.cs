@@ -9,7 +9,7 @@ namespace GitEnumerate
     public class Program
     {
         private static ConsoleColor _userForegroundColor;
-        private static bool _verbose;
+        private static bool _verbose = true;
         private static int _count;
 
         public static void Main(string[] args)
@@ -28,8 +28,8 @@ namespace GitEnumerate
                 {
                     switch (argsList[i])
                     {
-                        case "-v":
-                            _verbose = true;
+                        case "-q":
+                            _verbose = false;
                             break;
                         //case "-r":
                         //    recurse = 1;
@@ -69,10 +69,10 @@ namespace GitEnumerate
 
         private static void EnumerateFolder(string root)
         {
-            ForegroundColor = ConsoleColor.Cyan;
-            Write("  Enumerating ");
-            ForegroundColor = ConsoleColor.White;
-            WriteLine($"{root}\n");
+            //ForegroundColor = ConsoleColor.Cyan;
+            //Write("  Enumerating ");
+            //ForegroundColor = ConsoleColor.White;
+            //WriteLine($"{root}\n");
 
             string[] folders;
 
@@ -114,7 +114,7 @@ namespace GitEnumerate
                         Write($"    {displayFolder}");
                         Write(new string(' ', length - displayFolder.Length + 2));
                         ForegroundColor = ConsoleColor.Green;
-                        Write($"+ {status.Added.Count().ToString().PadRight(3)} ");
+                        Write($"+ {status.Untracked.Count().ToString().PadRight(3)} ");
                         ForegroundColor = ConsoleColor.Yellow;
                         Write($"~ {status.Modified.Count().ToString().PadRight(3)} ");
                         ForegroundColor = ConsoleColor.Red;
@@ -125,7 +125,7 @@ namespace GitEnumerate
                         if (_verbose)
                         {
                             ForegroundColor = ConsoleColor.Green;
-                            status.Added.ToList().ForEach(a => WriteLine($"      + {a.FilePath}"));
+                            status.Untracked.ToList().ForEach(a => WriteLine($"      + {a.FilePath}"));
                             ForegroundColor = ConsoleColor.Yellow;
                             status.Modified.ToList().ForEach(m => WriteLine($"      ~ {m.FilePath}"));
                             ForegroundColor = ConsoleColor.Red;
@@ -158,10 +158,10 @@ namespace GitEnumerate
             ForegroundColor = ConsoleColor.Cyan;
 
             WriteLine("  Usage:");
-            WriteLine("    GitEnumerate [-v]");
+            WriteLine("    GitEnumerate [-q]");
             //WriteLine("    GitEnumerate [-v] [-r [levels]]");
             WriteLine("\n  Where:");
-            WriteLine("    -v: Verbose, lists added/changed/deleted files within the repo.");
+            WriteLine("    -q: Quiet, don't list added/changed/deleted files within the repo.");
             //WriteLine("    -r: Recurse, recurse more than one level from the current folder.");
             //WriteLine("    levels: how many levels to recurse if -r specified. Default: 2 if -r specified, 1 if not.");
             WriteLine();
